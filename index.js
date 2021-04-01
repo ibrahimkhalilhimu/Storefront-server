@@ -21,10 +21,17 @@ client.connect(err => {
   app.post('/addProduct',(req,res) => {
     const products = req.body;
     console.log(products);
-    productsCollection.insertMany(products)
+    productsCollection.insertOne(products)
     .then(result => {
     console.log(result.insertedCount);
     res.send(result.insertedCount);
+    })
+  })
+
+  app.get('/products',(req,res) => {
+    productsCollection.find({})
+    .toArray((err,documents)=>{
+      res.send(documents);
     })
   })
  
