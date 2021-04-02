@@ -2,6 +2,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const MongoClient = require('mongodb').MongoClient;
+const ObjectId = require('mongodb').ObjectId
 require('dotenv').config()
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.huwqv.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
@@ -34,7 +35,16 @@ client.connect(err => {
       res.send(documents);
     })
   })
- 
+  app.get('/product/:id',(req,res)=>{
+    const id = ObjectId( req.params.id);
+    console.log(id);
+    productsCollection.find({_id: id})
+    .toArray((err,documents)=>{
+      res.send(documents[0])
+      console.log(documents)
+    })
+  })
+
 });
 
 
