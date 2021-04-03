@@ -19,7 +19,7 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 client.connect(err => {
   const productsCollection = client.db("storeFront").collection("products");
   const orderCollection = client.db("storeFront").collection("order");
-
+  const adminCollection = client.db("storeFront").collection("admin");
   app.post('/addProduct',(req,res) => {
     const products = req.body;
     console.log(products);
@@ -61,6 +61,37 @@ app.get('/orders',(req,res)=>{
     res.send(documents)
   })
 })
+
+app.delete('/delete/:id',(req,res)=>{
+  orderCollection.deleteOne({_id:ObjectId(req.params.id)})
+  .then((result)=>{
+     res.send(result.deletedCount > 0);
+  })
+  
+})
+
+app.get('/order', (req, res) => {
+  orderCollection.find({})
+  .toArray( (err, documents) => {
+      res.send(documents);
+  })
+})
+
+app.post('/makeAdmin',(req, res)=>{
+  const admin = req.body;
+  adminCollection.insertOne(admin)
+  .then((result)=>{
+    res.send(result.insertCount > 0);
+  })
+})
+
+// app.post('/isAdmin', (req, res) => {
+//   const email = req.body.email
+//   adminCollection.find({email:email})
+//   .toArray( (err, admin) => {
+//       res.send(admin.length>0);
+//   })
+// })
 
 });
 
