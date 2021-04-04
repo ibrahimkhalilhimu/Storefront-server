@@ -117,6 +117,15 @@ app.post('/isAdmin', (req, res) => {
   })
 })
 
+app.delete('/deleteAdmin/:id',(req,res)=>{
+  productsCollection.deleteOne({_id:ObjectId(req.params.id)})
+  .then((result)=>{
+    console.log(result);
+     res.send(result.deletedCount > 0);
+  })
+  
+})
+
 });
 
 
