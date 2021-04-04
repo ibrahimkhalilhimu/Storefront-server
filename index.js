@@ -19,6 +19,9 @@ app.use(fileUpload())
 
 const port = 5000
 
+app.get('/',(req,res)=>{
+  res.send("Hello world")
+})
 
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 client.connect(err => {
@@ -47,12 +50,8 @@ console.log(file,name,price);
     res.send(result.insertedCount>0)
     })
 
-
-  
-
-
-
   })
+
 
   app.get('/products',(req,res) => {
     const search = req.query.search;
@@ -62,7 +61,7 @@ console.log(file,name,price);
     })
   })
   app.get('/product/:id',(req,res)=>{
-    const id = ObjectId( req.params.id);
+    const id = ObjectId( req.params.id)
     console.log(id);
     productsCollection.find({_id: id})
     .toArray((err,documents)=>{
