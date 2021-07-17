@@ -60,6 +60,15 @@ console.log(file,name,price);
       res.send(documents);
     })
   })
+
+  app.get('/productAll',(req,res) => {
+    productsCollection.find({})
+    .toArray((err,documents)=>{
+      res.send(documents);
+    })
+  })
+
+
   app.get('/product/:id',(req,res)=>{
     const id = ObjectId( req.params.id)
     console.log(id);
@@ -74,6 +83,7 @@ console.log(file,name,price);
     const orders = req.body;
     orderCollection.insertOne(orders)
     .then(result=>{
+      console.log(result);
       res.send(result.insertedCount>0)
     })
   })
